@@ -1,3 +1,6 @@
+downloads/
+downloads.json
+
 # Logs
 logs
 *.log
