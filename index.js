@@ -3,6 +3,7 @@ const pgnmentor = 'https://www.pgnmentor.com/files.html';
 const selector = 'tr > td > a';
 
 import $ from 'cheerio';
+import fs from 'fs';
 import rp from 'request-promise';
 
 const jsonFile = process.cwd() + '/downloads.json';
@@ -22,11 +23,11 @@ rp(pgnmentor)
     const res = $(selector, html);
     console.log('Starting sorting...')
 
-    const length = res.length;
+    const resLength = res.length;
     let skipped = 0;
 
     // console.log($(selector, html));
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < resLength; i++) {
       var link = $(selector, html)[i].attribs.href;
 
       // exclude links
@@ -48,7 +49,7 @@ rp(pgnmentor)
       console.log('Added link: ' + link)
     }
 
-    console.log('There were ' + length + ' downloads available');
+    console.log('There were ' + resLength + ' downloads available');
     let totalLinks = downloadLinks.players.length + downloadLinks.openings.length + downloadLinks.events.length;
     console.log('There were ' + totalLinks + ' added to the list');
     console.log('There were ' + skipped + ' links skipped');
@@ -62,3 +63,14 @@ rp(pgnmentor)
   .catch((err) => {
     console.error(err);
   });
+
+// write downloads.json
+console.log('Writing to `downloads.json`');
+fs.writeFile(jsonFile, JSON.stringify(downloadLinks), 'utf8', function (err) {
+  if (err) {
+    console.log("An error occured while writing JSON Object to File.");
+    return console.log(err);
+  }
+
+  console.log("`downloads.json`has been saved.");
+}); 
