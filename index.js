@@ -8,6 +8,7 @@ import rp from 'request-promise';
 
 const jsonFile = process.cwd() + '/downloads.json';
 
+// TODO: add SKIPPED links
 let downloadLinks = {
   players: [],
   openings: [],
@@ -33,7 +34,7 @@ rp(pgnmentor)
       var link = $(selector, html)[i].attribs.href;
 
       // exclude links
-      if (!link.endsWith('.zip')/*link.startsWith('#')*/) {
+      if (!link.endsWith('.zip') && !link.endsWith('.pgn')/*link.startsWith('#')*/) {
         skipped++;
         continue;
       } else if (!link.startsWith('/'))

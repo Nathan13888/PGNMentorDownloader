@@ -3,7 +3,7 @@ import { get } from 'http';
 
 const jsonFile = process.cwd() + '/downloads.json';
 
-// exit if downloads.json does not exist
+// TODO: exit if downloads.json does not exist
 
 // load downloads.json
 fs.readFile(jsonFile, 'utf8', function (err, data) {
