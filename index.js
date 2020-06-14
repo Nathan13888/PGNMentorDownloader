@@ -20,7 +20,7 @@ rp(pgnmentor)
   .then((html) => {
     console.log('Starting scanning ' + pgnmentor);
     const res = $(selector, html);
-    console.log('Starting analysis...')
+    console.log('Starting sorting...')
 
     const length = res.length;
     let skipped = 0;
@@ -42,7 +42,8 @@ rp(pgnmentor)
         downloadLinks.openings.push(link);
       else if (link.startsWith('/events'))
         downloadLinks.events.push(link);
-      else 
+      else
+        downloadLinks.misc.push(link);
 
       console.log('Added link: ' + link)
     }
@@ -52,9 +53,10 @@ rp(pgnmentor)
     console.log('There were ' + totalLinks + ' added to the list');
     console.log('There were ' + skipped + ' links skipped');
 
-    console.log('There were ' + downloadLinks.players.length + 'links in PLAYERS');
-    console.log('There were ' + downloadLinks.openings.length + 'links in OPENINGS');
-    console.log('There were ' + downloadLinks.events.length + 'links in EVENTS');
+    console.log('There were ' + downloadLinks.players.length + ' links in PLAYERS');
+    console.log('There were ' + downloadLinks.openings.length + ' links in OPENINGS');
+    console.log('There were ' + downloadLinks.events.length + ' links in EVENTS');
+    console.log('There were ' + downloadLinks.misc.length + ' links in MISC');
 
   })
   .catch((err) => {

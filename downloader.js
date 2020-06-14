@@ -12,6 +12,8 @@ let downloadLinks = {
 
 // exit if downloads.json does not exist
 
+// load downloads.json
+
 console.log('Downloading Links...');
 
 for (let i = 0; i < downloadLinks.length; i++) {
