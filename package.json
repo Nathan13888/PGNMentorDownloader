@@ -1,0 +1,19 @@
+{
+  "name": "pgnmentordownloader",
+  "version": "1.0.0",
+  "description": "Downloads PGN files from PGNMentor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nathan13888/PGNMentorDownloader.git"
+  },
+  "author": "Nathan13888",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Nathan13888/PGNMentorDownloader/issues"
+  },
+  "homepage": "https://github.com/Nathan13888/PGNMentorDownloader#readme"
+}
