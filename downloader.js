@@ -1,5 +1,5 @@
-import { createWriteStream, unlink } from 'fs';
-import { get } from 'http';
+import fs from 'fs';
+import https from 'https';
 
 const jsonFile = process.cwd() + '/downloads.json';
 
@@ -10,27 +10,59 @@ fs.readFile(jsonFile, 'utf8', function (err, data) {
     if (err) {
         return console.log(err);
     }
+
+    console.log('Loading downloads.json...')
     let downloadLinks = JSON.parse(data);
 
     console.log('Downloading Links...');
 
-    for (let i = 0; i < downloadLinks.length; i++) {
-        const url = "https://www.pgnmentor.com" + downloadLinks[i];
-        const dest = process.cwd() + "/downloads" + downloadLinks[i];
-        console.log('Downloading ' + downloadLinks[i] + ' to ' + dest);
-        download(url, dest, () => { });
-    }
-
-    var download = (url, dest, cb) => {
-        var file = createWriteStream(dest);
-        var request = get(url, (response) => {
-            response.pipe(file);
-            file.on('finish', () => {
-                file.close(cb);  // close() is async, call cb after close completes.
-            });
-        }).on('error', (err) => { // Handle errors
-            unlink(dest); // Delete the file async. (But we don't check the result)
-            if (cb) cb(err.message);
-        });
-    };
+    downloadList(downloadLinks.players);
+    downloadList(downloadLinks.openings);
+    downloadList(downloadLinks.events);
 });
+
+var downloadList = (links) => {
+    for (let i = 0; i < links.length; i++) {
+        const url = "https://www.pgnmentor.com" + links[i];
+        const dest = process.cwd() + "/downloads" + links[i];
+        console.log('Downloading ' + links[i] + ' to ' + dest);
+        download(url, dest).catch((err) => { console.log(err) });
+    }
+}
+
+function download(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest, { flags: "wx" });
+
+        const request = https.get(url, response => {
+            if (response.statusCode === 200) {
+                response.pipe(file);
+            } else {
+                file.close();
+                fs.unlink(dest, () => { }); // Delete temp file
+                reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`);
+            }
+        });
+
+        request.on("error", err => {
+            file.close();
+            fs.unlink(dest, () => { }); // Delete temp file
+            reject(err.message);
+        });
+
+        file.on("finish", () => {
+            resolve();
+        });
+
+        file.on("error", err => {
+            file.close();
+
+            if (err.code === "EEXIST") {
+                reject("File already exists");
+            } else {
+                fs.unlink(dest, () => { }); // Delete temp file
+                reject(err.message);
+            }
+        });
+    });
+}

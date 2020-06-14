@@ -16,7 +16,7 @@ let downloadLinks = {
   misc: []
 };
 
-console.log('`downloads.json` set to ' + jsonFile);
+console.log('downloads.json set to ' + jsonFile);
 
 let resLength;
 
@@ -63,14 +63,14 @@ rp(pgnmentor)
     console.log('There were ' + downloadLinks.misc.length + ' links in MISC');
 
     // write downloads.json
-    console.log('Writing to `downloads.json`');
+    console.log('Writing to downloads.json');
     fs.writeFile(jsonFile, JSON.stringify(downloadLinks), 'utf8', function (err) {
       if (err) {
         console.log("An error occured while writing JSON Object to File.");
         return console.log(err);
       }
 
-      console.log("`downloads.json`has been saved.");
+      console.log("downloads.jsonhas been saved.");
     });
   })
   .catch((err) => {
