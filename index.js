@@ -10,7 +10,8 @@ const jsonFile = process.cwd() + '/downloads.json';
 let downloadLinks = {
   players: [],
   openings: [],
-  events: []
+  events: [],
+  misc: []
 };
 
 console.log('`downloads.json` set to ' + jsonFile);
@@ -41,6 +42,7 @@ rp(pgnmentor)
         downloadLinks.openings.push(link);
       else if (link.startsWith('/events'))
         downloadLinks.events.push(link);
+      else 
 
       console.log('Added link: ' + link)
     }

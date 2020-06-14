@@ -6,7 +6,8 @@ const jsonFile = process.cwd() + '/downloads.json';
 let downloadLinks = {
     players: [],
     openings: [],
-    events: []
+    events: [],
+    misc: []
 };
 
 // exit if downloads.json does not exist
