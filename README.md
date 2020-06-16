@@ -6,3 +6,8 @@ Downloads all the available files on PGNMentor.
 
 *To download all the files in downloads.json*, run `npm run download`
 
+## TODO
+
+- Downloader
+  - check file size, delete and redownload if neccessary
+
