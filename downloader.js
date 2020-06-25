@@ -24,7 +24,13 @@ fs.readFile(jsonFile, 'utf8', function (err, data) {
 var downloadList = (links) => {
     for (let i = 0; i < links.length; i++) {
         const url = "https://www.pgnmentor.com" + links[i];
-        const dest = process.cwd() + "/downloads" + links[i];
+        const rel = "/downloads" + links[i];
+        const dest = process.cwd() + rel;
+        const folder = process.cwd() + '/downloads/' + rel.split('/')[2];
+        if (!fs.existsSync(folder)) {
+            // Create folder
+            fs.mkdirSync(folder)
+        }
         console.log('Downloading ' + links[i] + ' to ' + dest);
         download(url, dest).catch((err) => { console.log(err) });
     }
